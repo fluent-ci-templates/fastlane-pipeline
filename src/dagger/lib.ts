@@ -47,7 +47,7 @@ export const withSrc = (ctr: Container, client: Client, context: Directory) =>
         "android/app/build",
         "android/.gradle",
         ".devbox",
-        ".fluent",
+        ".fluentci",
       ],
     })
     .withWorkdir("/app")
