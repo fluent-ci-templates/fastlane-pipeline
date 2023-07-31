@@ -188,6 +188,36 @@ export const productionDistribute = async (client: Client, src = ".") => {
     .withExec([
       "sh",
       "-c",
+      "devbox run -- bundle exec fastlane android productionDistribute",
+    ]);
+
+  const result = await ctr.stdout();
+
+  console.log(result);
+};
+
+export const promoteAlphaToBeta = async (client: Client, src = ".") => {
+  const context = await client.host().directory(src);
+  const baseCtr = withDevbox(
+    withAndroidSdk(
+      withBaseAlpine(
+        client
+          .pipeline("productionDistribute")
+          .container()
+          .from("alpine:latest")
+      )
+    )
+      .withMountedCache("/nix", client.cacheVolume("nix"))
+      .withMountedCache("/etc/nix", client.cacheVolume("nix-etc"))
+  );
+
+  const ctr = withEnv(withSrc(baseCtr, client, context))
+    .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
+    .withExec(["sh", "-c", "devbox run -- bun install"])
+    .withExec(["sh", "-c", "devbox run -- bundle install"])
+    .withExec([
+      "sh",
+      "-c",
       "devbox run -- bundle exec fastlane android promoteAlphaToBeta",
     ]);
 
