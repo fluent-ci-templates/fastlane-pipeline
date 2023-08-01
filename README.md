@@ -56,9 +56,11 @@ import { Dagger } from "https://deno.land/x/fastlane_pipeline/mod.ts";
 
 const { buildRelease } = Dagger;
 
-export default function pipeline(src = ".") {
+function pipeline(src = ".") {
   connect(async (client: Client) => {
     await buildRelease(client, src);
   });
 }
+
+pipeline();
 ```
