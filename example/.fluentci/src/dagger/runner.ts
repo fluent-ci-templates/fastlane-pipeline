@@ -1,3 +1,3 @@
-import pipeline from "./pipeline.ts";
+import pipeline from './pipeline.ts';
 
-pipeline();
+pipeline('.', Deno.args);
