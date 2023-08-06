@@ -1,8 +1,7 @@
-import pipeline from "./pipeline.ts";
+import pipeline from './pipeline.ts';
 import {
   buildDebug,
   buildRelease,
-  testDebug,
   internalDistribute,
   alphaDistribute,
   betaDistribute,
@@ -15,13 +14,12 @@ import {
   promoteInternalToProduction,
   firebaseAppDistribution,
   appCenterDistribute,
-} from "./jobs.ts";
+} from './jobs.ts';
 
 export {
   buildDebug,
   buildRelease,
   pipeline,
-  testDebug,
   internalDistribute,
   alphaDistribute,
   betaDistribute,

@@ -3,6 +3,23 @@ import { withDevbox } from "https://deno.land/x/nix_installer_pipeline@v0.3.6/sr
 import { Dagger } from "https://deno.land/x/android_pipeline@v0.2.3/mod.ts";
 import { withBaseAlpine, withEnv, withSrc } from "./lib.ts";
 
+export enum Job {
+  buildDebug = "buildDebug",
+  buildRelease = "buildRelease",
+  internalDistribute = "internalDistribute",
+  alphaDistribute = "alphaDistribute",
+  betaDistribute = "betaDistribute",
+  productionDistribute = "productionDistribute",
+  promoteAlphaToBeta = "promoteAlphaToBeta",
+  promoteBetaToProduction = "promoteBetaToProduction",
+  promoteAlphaToProduction = "promoteAlphaToProduction",
+  promoteInternalToAlpha = "promoteInternalToAlpha",
+  promoteInternalToBeta = "promoteInternalToBeta",
+  promoteInternalToProduction = "promoteInternalToProduction",
+  firebaseAppDistribution = "firebaseAppDistribution",
+  appCenterDistribute = "appCenterDistribute",
+}
+
 const { withAndroidSdk } = Dagger;
 
 export const buildDebug = async (client: Client, src = ".") => {
@@ -11,7 +28,7 @@ export const buildDebug = async (client: Client, src = ".") => {
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("buildDebug").container().from("alpine:latest")
+        client.pipeline(Job.buildDebug).container().from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -37,7 +54,7 @@ export const buildRelease = async (client: Client, src = ".") => {
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("buildRelease").container().from("alpine:latest")
+        client.pipeline(Job.buildRelease).container().from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -60,37 +77,15 @@ export const buildRelease = async (client: Client, src = ".") => {
   console.log(result);
 };
 
-export const testDebug = async (client: Client, src = ".") => {
-  const context = await client.host().directory(src);
-
-  const baseCtr = withDevbox(
-    withAndroidSdk(
-      withBaseAlpine(
-        client.pipeline("testDebug").container().from("alpine:latest")
-      )
-    )
-  );
-
-  const ctr = withEnv(withSrc(baseCtr, client, context))
-    .withExec(["sh", "-c", "devbox run -- bun install"])
-    .withExec(["sh", "-c", "devbox run -- bundle install"])
-    .withExec([
-      "sh",
-      "-c",
-      "devbox run -- bundle exec fastlane android testDebug",
-    ]);
-
-  const result = await ctr.stdout();
-
-  console.log(result);
-};
-
 export const internalDistribute = async (client: Client, src = ".") => {
   const context = await client.host().directory(src);
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("internalDistribute").container().from("alpine:latest")
+        client
+          .pipeline(Job.internalDistribute)
+          .container()
+          .from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -117,7 +112,7 @@ export const alphaDistribute = async (client: Client, src = ".") => {
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("alphaDistribute").container().from("alpine:latest")
+        client.pipeline(Job.alphaDistribute).container().from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -144,7 +139,7 @@ export const betaDistribute = async (client: Client, src = ".") => {
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("betaDistribute").container().from("alpine:latest")
+        client.pipeline(Job.betaDistribute).container().from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -172,7 +167,7 @@ export const productionDistribute = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("productionDistribute")
+          .pipeline(Job.productionDistribute)
           .container()
           .from("alpine:latest")
       )
@@ -202,7 +197,7 @@ export const promoteAlphaToBeta = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("productionDistribute")
+          .pipeline(Job.promoteAlphaToBeta)
           .container()
           .from("alpine:latest")
       )
@@ -232,7 +227,7 @@ export const promoteBetaToProduction = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("promoteBetaToProduction")
+          .pipeline(Job.promoteBetaToProduction)
           .container()
           .from("alpine:latest")
       )
@@ -262,7 +257,7 @@ export const promoteAlphaToProduction = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("promoteAlphaToProduction")
+          .pipeline(Job.promoteAlphaToProduction)
           .container()
           .from("alpine:latest")
       )
@@ -292,7 +287,7 @@ export const promoteInternalToAlpha = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("promoteInternalToAlpha")
+          .pipeline(Job.promoteInternalToAlpha)
           .container()
           .from("alpine:latest")
       )
@@ -322,7 +317,7 @@ export const promoteInternalToBeta = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("promoteInternalToBeta")
+          .pipeline(Job.promoteInternalToBeta)
           .container()
           .from("alpine:latest")
       )
@@ -353,7 +348,7 @@ export const promoteInternalToProduction = async (
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("promoteInternalToProduction")
+          .pipeline(Job.promoteInternalToProduction)
           .container()
           .from("alpine:latest")
       )
@@ -383,7 +378,7 @@ export const firebaseAppDistribution = async (client: Client, src = ".") => {
     withAndroidSdk(
       withBaseAlpine(
         client
-          .pipeline("firebaseAppDistribution")
+          .pipeline(Job.firebaseAppDistribution)
           .container()
           .from("alpine:latest")
       )
@@ -413,7 +408,10 @@ export const appCenterDistribute = async (client: Client, src = ".") => {
   const baseCtr = withDevbox(
     withAndroidSdk(
       withBaseAlpine(
-        client.pipeline("appCenterDistribute").container().from("alpine:latest")
+        client
+          .pipeline(Job.appCenterDistribute)
+          .container()
+          .from("alpine:latest")
       )
     )
       .withMountedCache("/nix", client.cacheVolume("nix"))
@@ -432,4 +430,51 @@ export const appCenterDistribute = async (client: Client, src = ".") => {
   const result = await ctr.stdout();
 
   console.log(result);
+};
+
+export type JobExec = (
+  client: Client,
+  src?: string
+) =>
+  | Promise<void>
+  | ((
+      client: Client,
+      src?: string,
+      options?: {
+        ignore: string[];
+      }
+    ) => Promise<void>);
+
+export const runnableJobs: Record<Job, JobExec> = {
+  [Job.buildDebug]: buildDebug,
+  [Job.buildRelease]: buildRelease,
+  [Job.internalDistribute]: internalDistribute,
+  [Job.alphaDistribute]: alphaDistribute,
+  [Job.betaDistribute]: betaDistribute,
+  [Job.productionDistribute]: productionDistribute,
+  [Job.promoteAlphaToBeta]: promoteAlphaToBeta,
+  [Job.promoteBetaToProduction]: promoteBetaToProduction,
+  [Job.promoteAlphaToProduction]: promoteAlphaToProduction,
+  [Job.promoteInternalToAlpha]: promoteInternalToAlpha,
+  [Job.promoteInternalToBeta]: promoteInternalToBeta,
+  [Job.promoteInternalToProduction]: promoteInternalToProduction,
+  [Job.firebaseAppDistribution]: firebaseAppDistribution,
+  [Job.appCenterDistribute]: appCenterDistribute,
+};
+
+export const jobDescriptions: Record<Job, string> = {
+  [Job.buildDebug]: "Builds a debug APK",
+  [Job.buildRelease]: "Builds a release APK",
+  [Job.internalDistribute]: "Distributes to internal testers",
+  [Job.alphaDistribute]: "Distributes to alpha testers",
+  [Job.betaDistribute]: "Distributes to beta testers",
+  [Job.productionDistribute]: "Distributes to production",
+  [Job.promoteAlphaToBeta]: "Promotes alpha to beta",
+  [Job.promoteBetaToProduction]: "Promotes beta to production",
+  [Job.promoteAlphaToProduction]: "Promotes alpha to production",
+  [Job.promoteInternalToAlpha]: "Promotes internal to alpha",
+  [Job.promoteInternalToBeta]: "Promotes internal to beta",
+  [Job.promoteInternalToProduction]: "Promotes internal to production",
+  [Job.firebaseAppDistribution]: "Distributes to firebase app distribution",
+  [Job.appCenterDistribute]: "Distributes to app center",
 };
