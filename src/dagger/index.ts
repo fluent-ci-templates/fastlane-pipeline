@@ -2,7 +2,6 @@ import pipeline from "./pipeline.ts";
 import {
   buildDebug,
   buildRelease,
-  testDebug,
   internalDistribute,
   alphaDistribute,
   betaDistribute,
@@ -21,7 +20,6 @@ export {
   buildDebug,
   buildRelease,
   pipeline,
-  testDebug,
   internalDistribute,
   alphaDistribute,
   betaDistribute,
