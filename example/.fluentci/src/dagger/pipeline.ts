@@ -3,14 +3,20 @@ import * as jobs from './jobs.ts';
 
 const {execLane, runnableJobs} = jobs;
 
-export default function pipeline(name: string, src = '.', args: string[] = []) {
+export default function pipeline(
+  lanes: string[],
+  src = '.',
+  args: string[] = [],
+) {
   connect(async (client: Client) => {
     if (args.length > 0) {
       await runSpecificJobs(client, args as jobs.Job[]);
       return;
     }
 
-    await execLane(client, name, src);
+    for (const lane of lanes) {
+      await execLane(client, lane, src);
+    }
   });
 }
 
