@@ -9,6 +9,10 @@ export default function pipeline(
   args: string[] = []
 ) {
   connect(async (client: Client) => {
+    if (lanes.length === 0) {
+      console.log("No lanes specified");
+      Deno.exit(1);
+    }
     if (args.length > 0) {
       await runSpecificJobs(client, args as jobs.Job[]);
       return;
