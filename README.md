@@ -11,7 +11,7 @@ A ready-to-use Fastlane pipeline for React Native projects.
 Run the following command:
 
 ```bash
-dagger run fluentci fastlane_pipeline
+dagger run fluentci fastlane_pipeline <lane>
 ```
 
 Or, if you want to use it as a template:
