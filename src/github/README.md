@@ -1,5 +1,9 @@
 # Github Actions
 
+[![deno module](https://shield.deno.dev/x/fastlane_pipeline)](https://deno.land/x/fastlane_pipeline)
+![deno compatibility](https://shield.deno.dev/deno/^1.34)
+[![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/fastlane-pipeline)](https://codecov.io/gh/fluent-ci-templates/fastlane-pipeline)
+
 The following command will generate a `.github/workflows/build.yml` file in your project:
 
 ```bash
