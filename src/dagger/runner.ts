@@ -1,3 +1,3 @@
 import pipeline from "./pipeline.ts";
 
-pipeline(Deno.args, ".", ["execLane"]);
+pipeline(Deno.args, ".");
