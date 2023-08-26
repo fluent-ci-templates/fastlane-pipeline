@@ -1,10 +1,10 @@
-import { JobSpec, Workflow } from "fluent_github_actions";
+import {JobSpec, Workflow} from 'fluent_github_actions';
 
 export function generateYaml(): Workflow {
-  const workflow = new Workflow("Build Application");
+  const workflow = new Workflow('Build Application');
 
   const push = {
-    branches: ["main"],
+    branches: ['main'],
   };
 
   const setupDagger = `\
@@ -13,33 +13,33 @@ export function generateYaml(): Workflow {
   dagger version`;
 
   const build: JobSpec = {
-    "runs-on": "ubuntu-latest",
+    'runs-on': 'ubuntu-latest',
     steps: [
       {
-        uses: "actions/checkout@v2",
+        uses: 'actions/checkout@v2',
       },
       {
-        uses: "denolib/setup-deno@v2",
+        uses: 'denoland/setup-deno@v1',
         with: {
-          "deno-version": "v1.36",
+          'deno-version': 'v1.36',
         },
       },
       {
-        name: "Setup Fluent CI CLI",
-        run: "deno install -A -r https://cli.fluentci.io -n fluentci",
+        name: 'Setup Fluent CI CLI',
+        run: 'deno install -A -r https://cli.fluentci.io -n fluentci',
       },
       {
-        name: "Setup Dagger",
+        name: 'Setup Dagger',
         run: setupDagger,
       },
       {
-        name: "Run Dagger Pipelines",
-        run: "dagger run fluentci fastlane_pipeline buildRelease",
+        name: 'Run Dagger Pipelines',
+        run: 'dagger run fluentci fastlane_pipeline buildRelease',
       },
     ],
   };
 
-  workflow.on({ push }).jobs({ build });
+  workflow.on({push}).jobs({build});
 
   return workflow;
 }
