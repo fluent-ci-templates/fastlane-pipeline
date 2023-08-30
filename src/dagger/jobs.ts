@@ -10,8 +10,7 @@ export const execLane = async (client: Client, name: string, src = ".") => {
   const baseCtr = client
     .pipeline(Job.execLane)
     .container()
-    .from("ghcr.io/fluent-ci-templates/android:latest")
-    .withMountedCache("/nix/store", client.cacheVolume("nix-store"));
+    .from("ghcr.io/fluent-ci-templates/android:latest");
 
   const ctr = withEnv(withSrc(baseCtr, client, context))
     .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
