@@ -1,22 +1,5 @@
 import Client, { Container, Directory } from "@dagger.io/dagger";
 
-export const withBaseAlpine = (ctr: Container) =>
-  ctr
-    .withExec(["apk", "update"])
-    .withExec([
-      "apk",
-      "add",
-      "bash",
-      "curl",
-      "openjdk11",
-      "wget",
-      "unzip",
-      "git",
-      "libstdc++",
-      "zlib",
-      "gcompat",
-    ]);
-
 export const withSrc = (ctr: Container, client: Client, context: Directory) =>
   ctr
     .withMountedCache("/nix", client.cacheVolume("nix"))
