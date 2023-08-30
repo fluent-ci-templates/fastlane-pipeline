@@ -2,7 +2,6 @@ import Client, { Container, Directory } from "@dagger.io/dagger";
 
 export const withSrc = (ctr: Container, client: Client, context: Directory) =>
   ctr
-    .withMountedCache("/nix", client.cacheVolume("nix"))
     .withMountedCache("/app/android/.gradle", client.cacheVolume("gradle"))
     .withMountedCache("/root/.gradle", client.cacheVolume("gradle-cache"))
     .withMountedCache("/app/android/app/build", client.cacheVolume("build"))
