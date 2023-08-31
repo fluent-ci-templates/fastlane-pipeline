@@ -10,16 +10,20 @@ export const execLane = async (client: Client, name: string, src = ".") => {
   const baseCtr = client
     .pipeline(Job.execLane)
     .container()
-    .from("ghcr.io/fluent-ci-templates/android:latest");
+    .from("ghcr.io/fluent-ci-templates/fastlane:latest");
 
   const ctr = withEnv(withSrc(baseCtr, client, context))
     .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
-    .withExec(["sh", "-c", "devbox run -- bun install"])
-    .withExec(["sh", "-c", "devbox run -- bundle install"])
+    .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
     .withExec([
       "sh",
       "-c",
-      `devbox run -- bundle exec fastlane android ${name}`,
+      'eval "$(devbox global shellenv)" && bundle install',
+    ])
+    .withExec([
+      "sh",
+      "-c",
+      `eval "$(devbox global shellenv)" && bundle exec fastlane android ${name}`,
     ]);
 
   const result = await ctr.stdout();
