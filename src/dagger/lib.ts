@@ -1,5 +1,17 @@
 import Client, { Container, Directory } from "@fluentci.io/dagger";
 
+export const exclude = [
+  "node_modules",
+  "build",
+  ".gradle",
+  "app/build",
+  "vendor",
+  "android/app/build",
+  "android/.gradle",
+  ".devbox",
+  ".fluentci",
+];
+
 export const withSrc = (ctr: Container, client: Client, context: Directory) =>
   ctr
     .withMountedCache("/app/android/.gradle", client.cacheVolume("gradle"))
@@ -19,19 +31,7 @@ export const withSrc = (ctr: Container, client: Client, context: Directory) =>
       "/root/android-sdk/build-tools",
       client.cacheVolume("sdk-build-tools")
     )
-    .withDirectory("/app", context, {
-      exclude: [
-        "node_modules",
-        "build",
-        ".gradle",
-        "app/build",
-        "vendor",
-        "android/app/build",
-        "android/.gradle",
-        ".devbox",
-        ".fluentci",
-      ],
-    })
+    .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
     .withExec(["sh", "-c", "yes | sdkmanager --licenses"])
     .withEnvVariable("LC_ALL", "en_US.UTF-8")
