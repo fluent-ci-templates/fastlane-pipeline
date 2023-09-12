@@ -1,4 +1,4 @@
-import Client from "@dagger.io/dagger";
+import Client from "@fluentci.io/dagger";
 import { withEnv, withSrc } from "./lib.ts";
 
 export enum Job {

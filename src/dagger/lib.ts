@@ -1,4 +1,4 @@
-import Client, { Container, Directory } from "@dagger.io/dagger";
+import Client, { Container, Directory } from "@fluentci.io/dagger";
 
 export const withSrc = (ctr: Container, client: Client, context: Directory) =>
   ctr
