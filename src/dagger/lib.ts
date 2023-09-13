@@ -35,7 +35,8 @@ export const withSrc = (ctr: Container, client: Client, context: Directory) =>
     .withWorkdir("/app")
     .withExec(["sh", "-c", "yes | sdkmanager --licenses"])
     .withEnvVariable("LC_ALL", "en_US.UTF-8")
-    .withEnvVariable("LANG", "en_US.UTF-8");
+    .withEnvVariable("LANG", "en_US.UTF-8")
+    .withExec(["chmod", "+x", "/app/android/gradlew"]);
 
 export const withEnv = (ctr: Container) =>
   ctr
