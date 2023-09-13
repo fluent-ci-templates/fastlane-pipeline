@@ -41,7 +41,7 @@ You can also use this pipeline programmatically:
 
 ```ts
 import Client, { connect } from "https://sdk.fluentci.io/v0.1.6/mod.ts";
-import { execLanr } from "https://pkg.fluentci.io/fastlane_pipeline@v0.6.0/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.6.0/mod.ts";
 
 function pipeline(src = ".") {
   connect(async (client: Client) => {
