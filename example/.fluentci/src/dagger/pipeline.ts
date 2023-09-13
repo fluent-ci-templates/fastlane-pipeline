@@ -1,9 +1,14 @@
-import Client, { connect } from "@dagger.io/dagger";
+import Client, { connect, uploadContext } from "@fluentci.io/dagger";
 import * as jobs from "./jobs.ts";
+import { exclude } from "./lib.ts";
 
 const { execLane } = jobs;
 
-export default function pipeline(lanes: string[], src = ".") {
+export default async function pipeline(lanes: string[], src = ".") {
+  if (Deno.env.has("FLUENTCI_SESSION_ID")) {
+    await uploadContext(src, exclude);
+  }
+
   connect(async (client: Client) => {
     if (lanes.length === 0) {
       console.log("No lanes specified");

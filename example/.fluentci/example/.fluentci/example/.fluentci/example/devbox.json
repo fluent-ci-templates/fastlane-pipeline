@@ -1,0 +1,19 @@
+{
+  "packages": [
+    "jdk@17.0.7+7",
+    "ruby@3.2.2",
+    "bun@0.6.9",
+    "nodejs@18.16.1",
+    "watchman@2023.01.30.00"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}

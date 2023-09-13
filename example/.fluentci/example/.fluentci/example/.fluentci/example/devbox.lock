@@ -1,0 +1,31 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "bun@0.6.9": {
+      "last_modified": "2023-06-29T16:20:38Z",
+      "resolved": "github:NixOS/nixpkgs/3c614fbc76fc152f3e1bc4b2263da6d90adf80fb#bun",
+      "version": "0.6.9"
+    },
+    "jdk@17.0.7+7": {
+      "last_modified": "2023-06-29T16:20:38Z",
+      "resolved": "github:NixOS/nixpkgs/3c614fbc76fc152f3e1bc4b2263da6d90adf80fb#jdk17",
+      "version": "17.0.7+7"
+    },
+    "nodejs@18.16.1": {
+      "last_modified": "2023-06-29T16:20:38Z",
+      "resolved": "github:NixOS/nixpkgs/3c614fbc76fc152f3e1bc4b2263da6d90adf80fb#nodejs_18",
+      "version": "18.16.1"
+    },
+    "ruby@3.2.2": {
+      "last_modified": "2023-06-29T16:20:38Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/3c614fbc76fc152f3e1bc4b2263da6d90adf80fb#ruby_3_2",
+      "version": "3.2.2"
+    },
+    "watchman@2023.01.30.00": {
+      "last_modified": "2023-06-29T16:20:38Z",
+      "resolved": "github:NixOS/nixpkgs/3c614fbc76fc152f3e1bc4b2263da6d90adf80fb#watchman",
+      "version": "2023.01.30.00"
+    }
+  }
+}

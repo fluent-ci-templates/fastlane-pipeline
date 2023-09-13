@@ -5,14 +5,13 @@
     "esm:update": "deno run -A https://esm.sh/v128 update",
     "esm:remove": "deno run -A https://esm.sh/v128 remove"
   },
-  "lint": {
-    "exclude": [
-      "example"
-    ]
-  },
   "fmt": {
-    "exclude": [
-      "example"
-    ]
+    "exclude": ["example/", ".fluentci/"]
+  },
+  "lint": {
+    "exclude": ["example/", ".fluentci/"]
+  },
+  "test": {
+    "exclude": ["example/", ".fluentci/"]
   }
 }

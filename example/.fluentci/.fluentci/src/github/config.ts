@@ -1,10 +1,10 @@
-import {JobSpec, Workflow} from 'fluent_github_actions';
+import { JobSpec, Workflow } from "fluent_github_actions";
 
 export function generateYaml() {
-  const workflow = new Workflow('Codecov');
+  const workflow = new Workflow("Codecov");
 
   const push = {
-    branches: ['main'],
+    branches: ["main"],
   };
 
   const setupDagger = `\
@@ -13,40 +13,40 @@ export function generateYaml() {
   dagger version`;
 
   const tests: JobSpec = {
-    'runs-on': 'ubuntu-latest',
+    "runs-on": "ubuntu-latest",
     steps: [
       {
-        uses: 'actions/checkout@v2',
+        uses: "actions/checkout@v2",
       },
       {
-        uses: 'denoland/setup-deno@v1',
+        uses: "denoland/setup-deno@v1",
         with: {
-          'deno-version': 'v1.36',
+          "deno-version": "v1.36",
         },
       },
       {
-        name: 'Setup Fluent CI CLI',
-        run: 'deno install -A -r https://cli.fluentci.io -n fluentci',
+        name: "Setup Fluent CI CLI",
+        run: "deno install -A -r https://cli.fluentci.io -n fluentci",
       },
       {
-        name: 'Setup Dagger',
+        name: "Setup Dagger",
         run: setupDagger,
       },
       {
-        name: 'Run Dagger Pipelines',
-        run: 'dagger run fluentci . fmt lint test',
+        name: "Run Dagger Pipelines",
+        run: "dagger run fluentci . fmt lint test",
       },
       {
-        name: 'Upload to Codecov',
-        run: 'dagger run fluentci codecov_pipeline',
+        name: "Upload to Codecov",
+        run: "dagger run fluentci codecov_pipeline",
         env: {
-          CODECOV_TOKEN: '${{ secrets.CODECOV_TOKEN }}',
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}",
         },
       },
     ],
   };
 
-  workflow.on({push}).jobs({tests});
+  workflow.on({ push }).jobs({ tests });
 
-  workflow.save('.github/workflows/ci.yml');
+  workflow.save(".github/workflows/ci.yml");
 }
