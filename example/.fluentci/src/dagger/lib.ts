@@ -6,7 +6,6 @@ export const exclude = [
   '.gradle',
   'app/build',
   'vendor',
-  'android/app/build',
   'android/.gradle',
   '.devbox',
   '.fluentci',
