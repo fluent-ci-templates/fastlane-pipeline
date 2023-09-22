@@ -1,4 +1,4 @@
-import Client, { Container, Directory } from "@fluentci.io/dagger";
+import Client, { Container, Directory } from "../../deps.ts";
 
 export const exclude = [
   "node_modules",
