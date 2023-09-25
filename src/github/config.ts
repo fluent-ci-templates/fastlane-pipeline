@@ -38,7 +38,7 @@ export function generateYaml(): Workflow {
       },
       {
         name: "Run Dagger Pipelines",
-        run: "dagger run fluentci fastlane_pipeline buildRelease",
+        run: "fluentci run fastlane_pipeline buildRelease",
       },
     ],
   };

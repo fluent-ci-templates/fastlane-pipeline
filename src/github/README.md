@@ -43,7 +43,7 @@ jobs:
             sudo mv bin/dagger /usr/local/bin
             dagger version
       - name: Run Dagger Pipelines
-        run: dagger run fluentci fastlane_pipeline buildRelease
+        run: fluentci run fastlane_pipeline buildRelease
 ```
 
 Feel free to edit the template generator at `.fluentci/src/github/config.ts` to your needs.

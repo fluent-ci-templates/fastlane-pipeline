@@ -13,7 +13,7 @@ phases:
       - dagger version
   build:
     commands:
-      - dagger run fluentci fastlane_pipeline buildRelease
+      - fluentci run fastlane_pipeline buildRelease
   post_build:
     commands:
       - echo Build completed on `date`

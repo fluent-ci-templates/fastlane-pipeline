@@ -19,7 +19,7 @@ export function generateYaml(): BuildSpec {
       ],
     })
     .phase("build", {
-      commands: ["dagger run fluentci fastlane_pipeline buildRelease"],
+      commands: ["fluentci run fastlane_pipeline buildRelease"],
     })
     .phase("post_build", {
       commands: ["echo Build completed on `date`"],

@@ -41,7 +41,7 @@ Generated file:
 build:
   extends: .dagger
   script:
-    - dagger run fluentci fastlane_pipeline buildRelease
+    - fluentci run fastlane_pipeline buildRelease
 
 ```
 

@@ -34,7 +34,7 @@ jobs:
           dagger version
       - run:
           name: Upload Coverage
-          command: dagger run fluentci fastlane_pipeline buildRelease
+          command: fluentci run fastlane_pipeline buildRelease
     machine:
       image: ubuntu-2004:2023.07.1
 workflows:

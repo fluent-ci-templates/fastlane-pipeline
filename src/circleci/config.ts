@@ -30,7 +30,7 @@ dagger version`,
     {
       run: {
         name: "Run Dagger Pipelines",
-        command: "dagger run fluentci fastlane_pipeline buildRelease",
+        command: "fluentci run fastlane_pipeline buildRelease",
       },
     },
   ]);
