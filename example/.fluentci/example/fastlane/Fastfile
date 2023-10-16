@@ -1,0 +1,180 @@
+fastlane_version '2.212.0'
+
+platform :ios do
+end
+
+platform :android do
+  desc 'Build the Android application. (Release)'
+  lane :buildRelease do
+    gradle(task: 'tasks', project_dir: 'android/')
+    gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')
+  end
+
+  desc 'Build the Android application. (Debug)'
+  lane :buildDebug do
+    gradle(task: 'assemble', build_type: 'Debug', project_dir: 'android/')
+  end
+
+  desc 'Build the Android application. (Bundle)'
+  lane :bundleRelease do
+    gradle(task: 'bundle', build_type: 'Release', project_dir: 'android/')
+  end
+
+  desc 'Distribute the Android application. (Internal)'
+  lane :internalDistribute do
+    buildRelease
+    supply(
+      track: 'internal',
+      apk: 'android/app/build/outputs/apk/release/app-release.apk',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Distribute the Android application. (Alpha)'
+  lane :alphaDistribute do
+    buildRelease
+    supply(
+      track: 'alpha',
+      apk: 'android/app/build/outputs/apk/release/app-release.apk',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Distribute the Android application. (Beta)'
+  lane :betaDistribute do
+    buildRelease
+    supply(
+      track: 'beta',
+      apk: 'android/app/build/outputs/apk/release/app-release.apk',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Distribute the Android application. (Production)'
+  lane :productionDistribute do
+    bundleRelease
+    supply(
+      track: 'production',
+      aab: 'android/app/build/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Alpha to Beta)'
+  lane :promoteAlphaToBeta do
+    supply(
+      track: 'beta',
+      track_promote_to: 'alpha',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Beta to Production)'
+  lane :promoteBetaToProduction do
+    supply(
+      track: 'production',
+      track_promote_to: 'beta',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Alpha to Production)'
+  lane :promoteAlphaToProduction do
+    supply(
+      track: 'production',
+      track_promote_to: 'alpha',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Internal to Alpha)'
+  lane :promoteInternalToAlpha do
+    supply(
+      track: 'alpha',
+      track_promote_to: 'internal',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Internal to Beta)'
+  lane :promoteInternalToBeta do
+    supply(
+      track: 'beta',
+      track_promote_to: 'internal',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      skip_upload_apk: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Promote the Android application. (Internal to Production)'
+  lane :promoteInternalToProduction do
+    supply(
+      track: 'production',
+      track_promote_to: 'internal',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      skip_upload_apk: true,
+      json_key_data: ENV['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    )
+  end
+
+  desc 'Distribute the Android application. (Firebase App Distribution)'
+  lane :firebaseAppDistribution do
+    buildRelease
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_ID'],
+      testers: ENV['FIREBASE_TESTERS_LIST'],
+      release_notes: 'This release is brought to you by Fastlane.',
+      groups: ENV['FIREBASE_TESTERS_GROUPS'],
+    )
+  end
+
+  desc 'Distribute the Android application. (AppCenter)'
+  lane :appCenterDistribute do
+    buildRelease
+    appcenter_upload(
+      api_token: ENV['APPCENTER_API_TOKEN'],
+      owner_name: ENV['APPCENTER_OWNER_NAME'],
+      app_name: ENV['APPCENTER_APP_NAME'],
+      apk: 'android/app/build/outputs/apk/release/app-release.apk'
+    )
+  end
+end
