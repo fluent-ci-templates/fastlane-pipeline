@@ -2,7 +2,7 @@
 
 [![fluentci pipeline](https://img.shields.io/badge/dynamic/json?label=pkg.fluentci.io&labelColor=%23000&color=%23460cf1&url=https%3A%2F%2Fapi.fluentci.io%2Fv1%2Fpipeline%2Ffastlane_pipeline&query=%24.version)](https://pkg.fluentci.io/fastlane_pipeline)
 [![deno module](https://shield.deno.dev/x/fastlane_pipeline)](https://deno.land/x/fastlane_pipeline)
-![deno compatibility](https://shield.deno.dev/deno/^1.34)
+![deno compatibility](https://shield.deno.dev/deno/^1.37)
 [![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/fastlane-pipeline)](https://codecov.io/gh/fluent-ci-templates/fastlane-pipeline)
 
 A ready-to-use Fastlane pipeline for React Native projects.
@@ -35,19 +35,16 @@ fluentci run .
 | ----------- | ------------------------- |
 | execLane    | Executes a Fastlane lane  |
 
+```graphql
+execLane(lane: String!, src: String!): String
+```
+
 ## Programmatic usage
 
 You can also use this pipeline programmatically:
 
 ```ts
-import Client, { connect } from "https://sdk.fluentci.io/v0.1.9/mod.ts";
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.6.3/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.7.0/mod.ts";
 
-function pipeline(src = ".") {
-  connect(async (client: Client) => {
-    await execLane(client, "buildRelease", src);
-  });
-}
-
-pipeline();
+await execLane("buildRelease");
 ```

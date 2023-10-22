@@ -1,0 +1,5 @@
+{
+  "root": "",
+  "name": "fastlane",
+  "sdkRuntime": "tsiry/dagger-sdk-deno"
+}

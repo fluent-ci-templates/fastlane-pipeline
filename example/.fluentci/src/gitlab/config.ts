@@ -29,7 +29,7 @@ export function generateYaml(): GitlabCI {
 
   const build = new Job()
     .extends(".dagger")
-    .script("dagger run fluentci fastlane_pipeline buildRelease");
+    .script("fluentci run fastlane_pipeline buildRelease");
 
   return new GitlabCI()
     .addJob(".docker", docker)

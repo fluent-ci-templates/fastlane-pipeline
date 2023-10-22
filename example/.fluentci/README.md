@@ -12,7 +12,7 @@ A ready-to-use Fastlane pipeline for React Native projects.
 Run the following command:
 
 ```bash
-dagger run fluentci fastlane_pipeline <lane>
+fluentci run fastlane_pipeline <lane>
 ```
 
 Or, if you want to use it as a template:
@@ -26,7 +26,7 @@ This will create a `.fluentci` folder in your project.
 Now you can run the pipeline with:
 
 ```bash
-dagger run fluentci .
+fluentci run .
 ```
 
 ## Jobs
@@ -40,14 +40,7 @@ dagger run fluentci .
 You can also use this pipeline programmatically:
 
 ```ts
-import Client, { connect } from "https://sdk.fluentci.io/v0.1.6/mod.ts";
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.6.1/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.7.0/mod.ts";
 
-function pipeline(src = ".") {
-  connect(async (client: Client) => {
-    await execLane(client, "buildRelease", src);
-  });
-}
-
-pipeline();
+await execLane("buildRelease");
 ```
