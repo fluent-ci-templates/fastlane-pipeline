@@ -11,7 +11,7 @@ export const execLane = async (name: string, src = ".") => {
     const baseCtr = client
       .pipeline(Job.execLane)
       .container()
-      .from("ghcr.io/fluent-ci-templates/fastlane:latest");
+      .from("ghcr.io/fluentci-io/fastlane:latest");
 
     const ctr = withEnv(withSrc(baseCtr, client, context))
       .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
