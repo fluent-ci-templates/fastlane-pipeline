@@ -15,17 +15,9 @@ export const execLane = async (name: string, src = ".") => {
 
     const ctr = withEnv(withSrc(baseCtr, client, context))
       .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
-      .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
-      .withExec([
-        "sh",
-        "-c",
-        'eval "$(devbox global shellenv)" && bundle install',
-      ])
-      .withExec([
-        "sh",
-        "-c",
-        `eval "$(devbox global shellenv)" && bundle exec fastlane android ${name}`,
-      ]);
+      .withExec(["bun", "install"])
+      .withExec(["bundle", "install"])
+      .withExec(["bundle", "exec", "fastlane", "android", name]);
 
     const result = await ctr.stdout();
 
