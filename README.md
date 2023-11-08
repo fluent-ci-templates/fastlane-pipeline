@@ -44,7 +44,7 @@ execLane(lane: String!, src: String!): String
 You can also use this pipeline programmatically:
 
 ```ts
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.7.3/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.8.0/mod.ts";
 
 await execLane("buildRelease");
 ```
