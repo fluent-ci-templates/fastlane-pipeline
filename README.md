@@ -36,7 +36,7 @@ fluentci run .
 | execLane    | Executes a Fastlane lane  |
 
 ```graphql
-execLane(lane: String!, src: String!): String
+execLane(lane: String!, src: String): String
 ```
 
 ## Programmatic usage

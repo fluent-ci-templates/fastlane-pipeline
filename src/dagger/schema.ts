@@ -14,10 +14,11 @@ const Query = queryType({
   definition(t) {
     t.string("execLane", {
       args: {
-        src: nonNull(stringArg()),
+        src: stringArg(),
         lane: nonNull(stringArg()),
       },
-      resolve: async (_root, args, _ctx) => await execLane(args.lane, args.src),
+      resolve: async (_root, args, _ctx) =>
+        await execLane(args.lane, args.src || undefined),
     });
   },
 });

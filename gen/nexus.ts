@@ -57,7 +57,7 @@ export interface NexusGenArgTypes {
   Query: {
     execLane: { // args
       lane: string; // String!
-      src: string; // String!
+      src?: string | null; // String
     }
   }
 }
