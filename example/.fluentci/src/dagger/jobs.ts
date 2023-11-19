@@ -1,14 +1,17 @@
-import Client from "../../deps.ts";
+import Client, { Directory } from "../../deps.ts";
 import { connect } from "../../sdk/connect.ts";
-import { withEnv, withSrc } from "./lib.ts";
+import { withEnv, withSrc, getDirectory } from "./lib.ts";
 
 export enum Job {
   execLane = "execLane",
 }
 
-export const execLane = async (name: string, src = ".") => {
+export const execLane = async (
+  name: string,
+  src: string | Directory | undefined = "."
+) => {
   await connect(async (client: Client) => {
-    const context = await client.host().directory(src);
+    const context = getDirectory(client, src);
     const baseCtr = client
       .pipeline(Job.execLane)
       .container()

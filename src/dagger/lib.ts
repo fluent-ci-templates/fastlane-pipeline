@@ -1,4 +1,4 @@
-import Client, { Container, Directory } from "../../deps.ts";
+import Client, { Container, Directory, DirectoryID } from "../../deps.ts";
 
 export const exclude = [
   "node_modules",
@@ -11,6 +11,18 @@ export const exclude = [
   ".devbox",
   ".fluentci",
 ];
+
+export const getDirectory = (
+  client: Client,
+  src: string | Directory | undefined = "."
+) => {
+  if (typeof src === "string" && src.startsWith("core.Directory")) {
+    return client.directory({
+      id: src as DirectoryID,
+    });
+  }
+  return src instanceof Directory ? src : client.host().directory(src);
+};
 
 export const withSrc = (ctr: Container, client: Client, context: Directory) =>
   ctr
