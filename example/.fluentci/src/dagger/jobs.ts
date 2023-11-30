@@ -1,4 +1,4 @@
-import Client, { Directory } from "../../deps.ts";
+import Client, { Directory, Container } from "../../deps.ts";
 import { connect } from "../../sdk/connect.ts";
 import { withEnv, withSrc, getDirectory } from "./lib.ts";
 
@@ -6,10 +6,17 @@ export enum Job {
   execLane = "execLane",
 }
 
-export const execLane = async (
-  name: string,
+/**
+ * @function
+ * @description Executes a lane
+ * @param lane {string}
+ * @param src {src: string | Directory | undefined}
+ * @returns {string}
+ */
+export async function execLane(
+  lane: string,
   src: string | Directory | undefined = "."
-) => {
+): Promise<Container | string> {
   await connect(async (client: Client) => {
     const context = getDirectory(client, src);
     const baseCtr = client
@@ -28,7 +35,7 @@ export const execLane = async (
       .withExec([
         "sh",
         "-c",
-        `eval "$(devbox global shellenv)" && bundle exec fastlane android ${name}`,
+        `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
       ]);
 
     const result = await ctr.stdout();
@@ -36,9 +43,12 @@ export const execLane = async (
     console.log(result);
   });
   return "done";
-};
+}
 
-export type JobExec = (name: string, src?: string) => Promise<string>;
+export type JobExec = (
+  name: string,
+  src?: string
+) => Promise<Container | string>;
 
 export const runnableJobs: Record<Job, JobExec> = {
   [Job.execLane]: execLane,
