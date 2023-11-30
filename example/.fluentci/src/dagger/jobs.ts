@@ -17,6 +17,7 @@ export async function execLane(
   lane: string,
   src: string | Directory | undefined = "."
 ): Promise<Container | string> {
+  let id = "";
   await connect(async (client: Client) => {
     const context = getDirectory(client, src);
     const baseCtr = client
@@ -38,11 +39,10 @@ export async function execLane(
         `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
       ]);
 
-    const result = await ctr.stdout();
-
-    console.log(result);
+    await ctr.stdout();
+    id = await ctr.id();
   });
-  return "done";
+  return id;
 }
 
 export type JobExec = (
