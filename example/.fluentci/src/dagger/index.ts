@@ -1,4 +1,4 @@
 import pipeline from "./pipeline.ts";
-import { execLane } from "./jobs.ts";
+import { execLane, jobDescriptions } from "./jobs.ts";
 
-export { execLane, pipeline };
+export { execLane, pipeline, jobDescriptions };
