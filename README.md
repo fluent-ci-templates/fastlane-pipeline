@@ -43,8 +43,11 @@ dagger mod install github.com/fluent-ci-templates/fastlane-pipeline@mod
 | ----------- | ------------------------- |
 | execLane    | Executes a Fastlane lane  |
 
-```graphql
-execLane(lane: String!, src: String): String
+```typescript
+execLane(
+  lane: string,
+  src: string | Directory | undefined = "."
+): Promise<Container | string>
 ```
 
 ## Programmatic usage
@@ -52,7 +55,7 @@ execLane(lane: String!, src: String): String
 You can also use this pipeline programmatically:
 
 ```ts
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.0/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.1/mod.ts";
 
 await execLane("buildRelease");
 ```
