@@ -9,8 +9,8 @@ export enum Job {
 /**
  * @function
  * @description Executes a lane
- * @param {string} lane
- * @param {string | Directory | undefined} src
+ * @param lane {string}
+ * @param src {src: string | Directory | undefined}
  * @returns {string}
  */
 export async function execLane(

@@ -7,6 +7,8 @@
 
 A ready-to-use Fastlane pipeline for React Native projects.
 
+![Made with VHS](https://vhs.charm.sh/vhs-3BdWbrCDU6CerRImplYFxo.gif)
+
 ## 🚀 Usage
 
 Run the following command:
@@ -55,7 +57,7 @@ execLane(
 You can also use this pipeline programmatically:
 
 ```ts
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.1/mod.ts";
+import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.2/mod.ts";
 
 await execLane("buildRelease");
 ```
