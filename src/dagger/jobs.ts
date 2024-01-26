@@ -19,7 +19,7 @@ export async function execLane(
 ): Promise<Container | string> {
   let id = "";
   await connect(async (client: Client) => {
-    const context = getDirectory(client, src);
+    const context = await getDirectory(client, src);
     const baseCtr = client
       .pipeline(Job.execLane)
       .container()
