@@ -1,5 +1,4 @@
-import Client, { Directory, Container } from "../../deps.ts";
-import { connect } from "../../sdk/connect.ts";
+import { Directory, Container, dag } from "../../deps.ts";
 import { withEnv, withSrc, getDirectory } from "./lib.ts";
 
 export enum Job {
@@ -17,31 +16,28 @@ export async function execLane(
   lane: string,
   src: string | Directory | undefined = "."
 ): Promise<Container | string> {
-  let id = "";
-  await connect(async (client: Client) => {
-    const context = await getDirectory(client, src);
-    const baseCtr = client
-      .pipeline(Job.execLane)
-      .container()
-      .from("ghcr.io/fluent-ci-templates/fastlane:latest");
+  const context = await getDirectory(dag, src);
+  const baseCtr = dag
+    .pipeline(Job.execLane)
+    .container()
+    .from("ghcr.io/fluent-ci-templates/fastlane:latest");
 
-    const ctr = withEnv(withSrc(baseCtr, client, context))
-      .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
-      .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
-      .withExec([
-        "sh",
-        "-c",
-        'eval "$(devbox global shellenv)" && bundle install',
-      ])
-      .withExec([
-        "sh",
-        "-c",
-        `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
-      ]);
+  const ctr = withEnv(withSrc(baseCtr, dag, context))
+    .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
+    .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
+    .withExec([
+      "sh",
+      "-c",
+      'eval "$(devbox global shellenv)" && bundle install',
+    ])
+    .withExec([
+      "sh",
+      "-c",
+      `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
+    ]);
 
-    await ctr.stdout();
-    id = await ctr.id();
-  });
+  await ctr.stdout();
+  const id = await ctr.id();
   return id;
 }
 
