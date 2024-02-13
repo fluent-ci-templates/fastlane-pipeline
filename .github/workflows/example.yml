@@ -20,6 +20,10 @@ jobs:
           curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.8 sh
           sudo mv bin/dagger /usr/local/bin
           dagger version
+        env:
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
       - name: Run Dagger Pipelines
         run: dagger run deno run -A ../src/dagger/runner.ts buildRelease
         working-directory: example
+        env:
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
