@@ -1,5 +1,4 @@
 {
   "name": "fastlane",
-  "sdk": "github.com/fluentci-io/daggerverse/deno-sdk@main",
-  "engineVersion": "v0.9.8"
+  "sdk": "github.com/fluentci-io/daggerverse/deno-sdk@main"
 }
