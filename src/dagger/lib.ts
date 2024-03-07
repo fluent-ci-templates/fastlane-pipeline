@@ -1,4 +1,4 @@
-import Client, { Container, Directory, DirectoryID } from "../../deps.ts";
+import { dag, env, Container, Directory, DirectoryID } from "../../deps.ts";
 
 export const exclude = [
   "node_modules",
@@ -13,7 +13,6 @@ export const exclude = [
 ];
 
 export const getDirectory = async (
-  client: Client,
   src: string | Directory | undefined = "."
 ) => {
   if (src instanceof Directory) {
@@ -21,38 +20,38 @@ export const getDirectory = async (
   }
   if (typeof src === "string") {
     try {
-      const directory = client.loadDirectoryFromID(src as DirectoryID);
+      const directory = dag.loadDirectoryFromID(src as DirectoryID);
       await directory.id();
       return directory;
     } catch (_) {
-      return client.host
-        ? client.host().directory(src)
-        : client.currentModule().source().directory(src);
+      return dag.host
+        ? dag.host().directory(src)
+        : dag.currentModule().source().directory(src);
     }
   }
-  return client.host
-    ? client.host().directory(src)
-    : client.currentModule().source().directory(src);
+  return dag.host
+    ? dag.host().directory(src)
+    : dag.currentModule().source().directory(src);
 };
 
-export const withSrc = (ctr: Container, client: Client, context: Directory) =>
+export const withSrc = (ctr: Container, context: Directory) =>
   ctr
-    .withMountedCache("/app/android/.gradle", client.cacheVolume("gradle"))
-    .withMountedCache("/root/.gradle", client.cacheVolume("gradle-cache"))
-    .withMountedCache("/app/android/app/build", client.cacheVolume("build"))
-    .withMountedCache("/app/vendor", client.cacheVolume("vendor"))
-    .withMountedCache("/app/node_modules", client.cacheVolume("node_modules"))
+    .withMountedCache("/app/android/.gradle", dag.cacheVolume("gradle"))
+    .withMountedCache("/root/.gradle", dag.cacheVolume("gradle-cache"))
+    .withMountedCache("/app/android/app/build", dag.cacheVolume("build"))
+    .withMountedCache("/app/vendor", dag.cacheVolume("vendor"))
+    .withMountedCache("/app/node_modules", dag.cacheVolume("node_modules"))
     .withMountedCache(
       "/root/android-sdk/platforms",
-      client.cacheVolume("sdk-platforms")
+      dag.cacheVolume("sdk-platforms")
     )
     .withMountedCache(
       "/root/android-sdk/system-images",
-      client.cacheVolume("sdk-system-images")
+      dag.cacheVolume("sdk-system-images")
     )
     .withMountedCache(
       "/root/android-sdk/build-tools",
-      client.cacheVolume("sdk-build-tools")
+      dag.cacheVolume("sdk-build-tools")
     )
     .withDirectory("/app", context, { exclude })
     .withWorkdir("/app")
@@ -65,26 +64,23 @@ export const withEnv = (ctr: Container) =>
   ctr
     .withEnvVariable(
       "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
-      Deno.env.get("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON") || ""
+      env.get("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON") || ""
     )
-    .withEnvVariable("FIREBASE_APP_ID", Deno.env.get("FIREBASE_APP_ID") || "")
+    .withEnvVariable("FIREBASE_APP_ID", env.get("FIREBASE_APP_ID") || "")
     .withEnvVariable(
       "FIREBASE_TESTERS_LIST",
-      Deno.env.get("FIREBASE_TESTERS_LIST") || ""
+      env.get("FIREBASE_TESTERS_LIST") || ""
     )
     .withEnvVariable(
       "FIREBASE_TESTERS_GROUPS",
-      Deno.env.get("FIREBASE_TESTERS_GROUPS") || ""
+      env.get("FIREBASE_TESTERS_GROUPS") || ""
     )
     .withEnvVariable(
       "APPCENTER_API_TOKEN",
-      Deno.env.get("APPCENTER_API_TOKEN") || ""
+      env.get("APPCENTER_API_TOKEN") || ""
     )
     .withEnvVariable(
       "APPCENTER_OWNER_NAME",
-      Deno.env.get("APPCENTER_OWNER_NAME") || ""
+      env.get("APPCENTER_OWNER_NAME") || ""
     )
-    .withEnvVariable(
-      "APPCENTER_APP_NAME",
-      Deno.env.get("APPCENTER_APP_NAME") || ""
-    );
+    .withEnvVariable("APPCENTER_APP_NAME", env.get("APPCENTER_APP_NAME") || "");

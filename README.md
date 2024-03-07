@@ -4,6 +4,9 @@
 [![deno module](https://shield.deno.dev/x/fastlane_pipeline)](https://deno.land/x/fastlane_pipeline)
 ![deno compatibility](https://shield.deno.dev/deno/^1.37)
 [![](https://img.shields.io/codecov/c/gh/fluent-ci-templates/fastlane-pipeline)](https://codecov.io/gh/fluent-ci-templates/fastlane-pipeline)
+[![dagger-min-version](https://img.shields.io/badge/dagger-v0.10.0-blue?color=3D66FF&labelColor=000000)](https://dagger.io)
+[![](https://jsr.io/badges/@fluentci/fastlane)](https://jsr.io/@fluentci/fastlane)
+[![ci](https://github.com/fluent-ci-templates/fastlane-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/fluent-ci-templates/fastlane-pipeline/actions/workflows/ci.yml)
 
 A ready-to-use Fastlane pipeline for React Native projects.
 
@@ -31,15 +34,21 @@ Now you can run the pipeline with:
 fluentci run .
 ```
 
-## Dagger Module
+## 🧩 Dagger Module
 
 Use as a [Dagger](https://dagger.io) Module:
 
 ```bash
-dagger mod install github.com/fluent-ci-templates/fastlane-pipeline@mod
+dagger install github.com/fluent-ci-templates/fastlane-pipeline@main
 ```
 
-## Jobs
+Call a function from the module:
+
+```bash
+dagger call exec-lane --lane buildRelease --src .
+```
+
+## ✨ Jobs
 
 | Job         | Description               |
 | ----------- | ------------------------- |
@@ -52,12 +61,12 @@ execLane(
 ): Promise<Container | string>
 ```
 
-## Programmatic usage
+## 👨‍💻 Programmatic usage
 
 You can also use this pipeline programmatically:
 
 ```ts
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.5/mod.ts";
+import { execLane } from "jsr:@fluentci/fastlane";
 
 await execLane("buildRelease");
 ```

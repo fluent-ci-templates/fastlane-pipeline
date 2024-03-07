@@ -6,8 +6,10 @@ export enum Job {
 }
 
 /**
+ * Execute a lane
+ *
  * @function
- * @description Executes a lane
+ * @description Execute a lane
  * @param lane {string}
  * @param src {src: string | Directory | undefined}
  * @returns {string}
@@ -16,28 +18,28 @@ export async function execLane(
   lane: string,
   src: string | Directory | undefined = "."
 ): Promise<Container | string> {
-    const context = await getDirectory(dag, src);
-    const baseCtr = dag
-      .pipeline(Job.execLane)
-      .container()
-      .from("ghcr.io/fluent-ci-templates/fastlane:latest");
+  const context = await getDirectory(src);
+  const baseCtr = dag
+    .pipeline(Job.execLane)
+    .container()
+    .from("ghcr.io/fluent-ci-templates/fastlane:latest");
 
-    const ctr = withEnv(withSrc(baseCtr, dag, context))
-      .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
-      .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
-      .withExec([
-        "sh",
-        "-c",
-        'eval "$(devbox global shellenv)" && bundle install',
-      ])
-      .withExec([
-        "sh",
-        "-c",
-        `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
-      ]);
+  const ctr = withEnv(withSrc(baseCtr, context))
+    .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
+    .withExec(["sh", "-c", 'eval "$(devbox global shellenv)" && bun install'])
+    .withExec([
+      "sh",
+      "-c",
+      'eval "$(devbox global shellenv)" && bundle install',
+    ])
+    .withExec([
+      "sh",
+      "-c",
+      `eval "$(devbox global shellenv)" && bundle exec fastlane android ${lane}`,
+    ]);
 
-    await ctr.stdout();
-    const id = await ctr.id();
+  await ctr.stdout();
+  const id = await ctr.id();
   return id;
 }
 
@@ -51,5 +53,5 @@ export const runnableJobs: Record<Job, JobExec> = {
 };
 
 export const jobDescriptions: Record<Job, string> = {
-  [Job.execLane]: "Executes a lane",
+  [Job.execLane]: "Execute a lane",
 };

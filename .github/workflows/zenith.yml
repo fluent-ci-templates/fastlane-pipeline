@@ -13,12 +13,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Dagger Zenith
         run: |
-          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.9.11 sh
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.10.0 sh
           sudo mv bin/dagger /usr/local/bin
           dagger version
       - name: Run Dagger Pipelines
         run: |
-          dagger query --doc buildRelease.gql
+          dagger call exec-lane --lane buildRelease --src .
         working-directory: example
         env:
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}

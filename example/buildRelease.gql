@@ -1,7 +1,0 @@
-{
-  fastlane {
-    execLane(lane: "buildRelease") {
-      id
-    }
-  }
-}

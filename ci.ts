@@ -1,3 +1,3 @@
-import { execLane } from "https://pkg.fluentci.io/fastlane_pipeline@v0.9.5/mod.ts";
+import { execLane } from "jsr:@fluentci/fastlane";
 
 await execLane("buildRelease");
