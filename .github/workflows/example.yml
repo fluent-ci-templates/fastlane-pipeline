@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Fluent CI CLI
         uses: fluentci-io/setup-fluentci@v4
+        with:
+          dagger-version: 0.11.0
       - name: Run Dagger Pipelines
         run: dagger run deno run -A ../src/dagger/runner.ts buildRelease
         working-directory: example
