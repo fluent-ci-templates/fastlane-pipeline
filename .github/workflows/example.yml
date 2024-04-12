@@ -11,17 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: "temurin"
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Setup Fluent CI CLI
         uses: fluentci-io/setup-fluentci@v5
+        with:
+          wasm: true
+          pipeline: android
+          args: setup
 
       - name: Run Wasm Plugin
         run: |
