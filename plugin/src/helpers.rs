@@ -12,7 +12,7 @@ pub fn setup_devbox() -> Result<(), Error> {
         .devbox()?
         .with_exec(vec!["[ -f devbox.json ] || devbox init"])?
         .with_exec(vec![&format!(
-            "grep -q 'ruby' devbox.json || devbox add ruby@{},jdk@17.0.7+7",
+            "grep -q 'ruby' devbox.json || devbox add ruby@{} jdk@17.0.7+7",
             ruby_version
         )])?
         .stdout()?;
