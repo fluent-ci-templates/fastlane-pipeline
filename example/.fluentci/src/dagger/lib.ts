@@ -37,7 +37,6 @@ export const getDirectory = async (
 export const withSrc = (ctr: Container, context: Directory) =>
   ctr
     .withMountedCache("/app/android/.gradle", dag.cacheVolume("gradle"))
-    .withMountedCache("/root/.gradle", dag.cacheVolume("gradle-cache"))
     .withMountedCache("/app/android/app/build", dag.cacheVolume("build"))
     .withMountedCache("/app/vendor", dag.cacheVolume("vendor"))
     .withMountedCache("/app/node_modules", dag.cacheVolume("node_modules"))
