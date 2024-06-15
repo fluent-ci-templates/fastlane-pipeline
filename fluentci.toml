@@ -4,5 +4,5 @@ authors = [
 ]
 description = "CI/CD Plugin for Fastlane"
 license = "MIT"
-name = "github"
+name = "fastlane"
 version = "0.11.2"
