@@ -22,8 +22,7 @@ export async function execLane(
   const baseCtr = dag
     .pipeline(Job.execLane)
     .container()
-    .from("ghcr.io/fluent-ci-templates/fastlane:latest")
-    .withExec(["sh", "-c", "devbox version update"]);
+    .from("ghcr.io/fluent-ci-templates/fastlane:latest");
 
   const ctr = withEnv(withSrc(baseCtr, context))
     .withEnvVariable("NODE_OPTIONS", "--max-old-space-size=4096")
