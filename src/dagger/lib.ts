@@ -1,4 +1,10 @@
-import { dag, env, Container, Directory, DirectoryID } from "../../deps.ts";
+import {
+  dag,
+  env,
+  type Container,
+  Directory,
+  type DirectoryID,
+} from "../../deps.ts";
 
 export const exclude = [
   "node_modules",
@@ -38,6 +44,7 @@ export const withSrc = (ctr: Container, context: Directory) =>
   ctr
     .withMountedCache("/app/android/.gradle", dag.cacheVolume("gradle"))
     .withMountedCache("/app/android/app/build", dag.cacheVolume("build"))
+    .withMountedCache("/root/.gradle", dag.cacheVolume("gradle-cache"))
     .withMountedCache("/app/vendor", dag.cacheVolume("vendor"))
     .withMountedCache("/app/node_modules", dag.cacheVolume("node_modules"))
     .withMountedCache(
