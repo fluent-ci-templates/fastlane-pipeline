@@ -27,5 +27,5 @@ jobs:
       - name: Run Dagger Pipelines
         run: dagger run deno run -A ../src/dagger/runner.ts buildRelease
         working-directory: example
-        #env:
-        #  DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+        env:
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
