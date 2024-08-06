@@ -21,7 +21,7 @@ jobs:
       - name: Run Wasm Plugin
         run: |
           fluentci run --wasm bun install
-          fluentci run --wasm . exec_lane android buildRelease
+          fluentci run --wasm . android buildRelease
         working-directory: example
 
       - name: Run Dagger Pipelines
